@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jphill.marsrovers.databinding.FragmentLatestPhotosBinding
+import com.jphill.retrofit.models.Photo
 import com.jphill.retrofit.models.PhotosOnSolResponse
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class LatestPhotosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLatestPhotosBinding.inflate(inflater, container, false).also {
-            adapter = LatestPhotosAdapter(this)
+            adapter = LatestPhotosAdapter(this) { viewModel?.getMorePhotos() }
             it.recyclerView.adapter = adapter
             it.recyclerView.layoutManager = GridLayoutManager(context, 2)
         }
@@ -43,13 +44,9 @@ class LatestPhotosFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel = ViewModelProviders.of(this, factory).get(LatestPhotosViewModel::class.java)
-        viewModel?.photosFromSol?.observe(this, Observer<PhotosOnSolResponse> {
-            updateView(it)
+        viewModel?.photosFromSol?.observe(this, Observer<List<Photo>> {
+            adapter?.onNewData(it)
         })
-    }
-
-    private fun updateView(photos: PhotosOnSolResponse) {
-        adapter?.photos = photos
     }
 
     override fun onDestroyView() {
