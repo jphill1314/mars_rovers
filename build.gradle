@@ -29,3 +29,4 @@ task clean(type: Delete) {
 }
 
 ext.retrofit_version = "2.6.2"
+ext.rxjava_version = "2.2.14"

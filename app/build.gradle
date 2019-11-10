@@ -27,7 +27,7 @@ android {
     viewBinding.enabled = true
 
     packagingOptions {
-        exclude 'META_INF/retrofit.kotlin_module'
+        exclude 'META-INF/retrofit.kotlin_module'
     }
 }
 
@@ -53,6 +53,9 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'

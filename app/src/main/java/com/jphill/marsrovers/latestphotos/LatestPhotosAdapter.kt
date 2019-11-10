@@ -2,14 +2,17 @@ package com.jphill.marsrovers.latestphotos
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jphill.marsrovers.databinding.ListItemSquareImageBinding
-import com.jphill.retrofit.models.LatestImagesResponse
+import com.jphill.retrofit.models.PhotosOnSolResponse
 
-class LatestPhotosAdapter : RecyclerView.Adapter<LatestPhotosAdapter.ViewHolder>() {
+class LatestPhotosAdapter(
+    var fragment: Fragment? = null
+) : RecyclerView.Adapter<LatestPhotosAdapter.ViewHolder>() {
 
-    var latestPhotos: LatestImagesResponse? = null
+    var photos: PhotosOnSolResponse? = null
     set(value) {
         field = value
         notifyDataSetChanged()
@@ -22,11 +25,13 @@ class LatestPhotosAdapter : RecyclerView.Adapter<LatestPhotosAdapter.ViewHolder>
         return ViewHolder(ListItemSquareImageBinding.inflate(inflater, parent, false))
     }
 
-    override fun getItemCount(): Int = latestPhotos?.latestPhotos?.size ?: 0
+    override fun getItemCount(): Int = photos?.photos?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        latestPhotos?.latestPhotos?.get(position)?.let { image ->
-            Glide.with(holder.itemView.context).load(image.src).into(holder.binding.image)
+        photos?.photos?.get(position)?.let { image ->
+            fragment?.let {
+                Glide.with(it).load(image.src).into(holder.binding.image)
+            }
         }
     }
 }

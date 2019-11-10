@@ -1,5 +1,6 @@
 package com.jphill.marsrovers.main.injection
 
+import android.app.Application
 import com.jphill.marsrovers.main.MainApplication
 import com.jphill.marsrovers.main.injection.scopes.PerApplication
 import dagger.BindsInstance
@@ -12,12 +13,12 @@ import dagger.android.support.AndroidSupportInjectionModule
     AndroidSupportInjectionModule::class,
     AppModule::class
 ])
-interface AppComponent : AndroidInjector<Any> {
+interface AppComponent : AndroidInjector<MainApplication> {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: MainApplication): AppComponent.Builder
+        fun application(application: Application): AppComponent.Builder
         fun build(): AppComponent
     }
 }

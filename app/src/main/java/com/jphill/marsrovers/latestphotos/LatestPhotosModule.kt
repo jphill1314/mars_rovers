@@ -6,8 +6,4 @@ import dagger.Module
 
 @Module
 abstract class LatestPhotosModule {
-
-    @Binds
-    @PerFragment
-    abstract fun bindsFactory(latestPhotosFactory: LatestPhotosFactory): LatestPhotosFactory
 }

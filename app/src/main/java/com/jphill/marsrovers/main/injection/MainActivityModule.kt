@@ -1,23 +1,13 @@
 package com.jphill.marsrovers.main.injection
 
-import android.content.Context
-import com.jphill.marsrovers.main.MainActivity
-import com.jphill.marsrovers.main.injection.scopes.PerActivity
-import dagger.Binds
+import com.jphill.marsrovers.main.DaggerNavHostFragment
+import com.jphill.marsrovers.main.injection.scopes.PerNavHost
 import dagger.Module
-import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainActivityModule {
-
-    @Binds
-    @PerActivity
-    abstract fun providesContext(application: MainActivity): Context
-
-    @Module
-    companion object {
-        @Provides
-        @PerActivity
-        fun providesResources(context: Context) = context.resources
-    }
+    @PerNavHost
+    @ContributesAndroidInjector(modules = [FragmentBindingModule::class])
+    abstract fun bindsNavHost(): DaggerNavHostFragment
 }

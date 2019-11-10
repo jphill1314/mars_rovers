@@ -1,5 +1,6 @@
 package com.jphill.marsrovers.latestphotos
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jphill.marsrovers.databinding.FragmentLatestPhotosBinding
-import com.jphill.retrofit.models.LatestImagesResponse
+import com.jphill.retrofit.models.PhotosOnSolResponse
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -21,8 +22,8 @@ class LatestPhotosFragment : Fragment() {
     @Inject
     lateinit var factory: LatestPhotosFactory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         AndroidSupportInjection.inject(this)
     }
 
@@ -32,9 +33,9 @@ class LatestPhotosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLatestPhotosBinding.inflate(inflater, container, false).also {
-            adapter = LatestPhotosAdapter()
+            adapter = LatestPhotosAdapter(this)
             it.recyclerView.adapter = adapter
-            it.recyclerView.layoutManager = LinearLayoutManager(context)
+            it.recyclerView.layoutManager = GridLayoutManager(context, 2)
         }
         return binding?.root
     }
@@ -42,17 +43,18 @@ class LatestPhotosFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel = ViewModelProviders.of(this, factory).get(LatestPhotosViewModel::class.java)
-        viewModel?.latestPhotos?.observe(this, Observer<LatestImagesResponse> {
+        viewModel?.photosFromSol?.observe(this, Observer<PhotosOnSolResponse> {
             updateView(it)
         })
     }
 
-    private fun updateView(latestPhotos: LatestImagesResponse) {
-        adapter?.latestPhotos = latestPhotos
+    private fun updateView(photos: PhotosOnSolResponse) {
+        adapter?.photos = photos
     }
 
     override fun onDestroyView() {
         binding = null
+        adapter?.fragment = null
         super.onDestroyView()
     }
 }
