@@ -1,14 +1,14 @@
 package com.jphill.marsrovers.main.injection
 
-import android.app.Application
-import android.content.Context
-import com.jphill.marsrovers.MainActivity
-import com.jphill.marsrovers.main.injection.scopes.MainActivityModule
+import com.jphill.marsrovers.main.MainActivity
 import com.jphill.marsrovers.main.injection.scopes.PerActivity
-import dagger.Binds
+import com.jphill.marsrovers.main.injection.scopes.PerApplication
+import com.jphill.retrofit.MarsRoverImageService
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 abstract class AppModule {
@@ -17,14 +17,17 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun providesMainActivity(): MainActivity
 
-    @Binds
-    @PerActivity
-    abstract fun providesContext(application: Application): Context
-
     @Module
     companion object {
         @Provides
-        @PerActivity
-        fun providesResources(context: Context) = context.resources
+        @PerApplication
+        fun providesRetrofit(): Retrofit = Retrofit.Builder()
+            .baseUrl("https://api.nasa.gov/mars-photos/api/v1")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        @Provides
+        @PerApplication
+        fun providesMarsImages(retrofit: Retrofit) = retrofit.create(MarsRoverImageService::class.java)
     }
 }
