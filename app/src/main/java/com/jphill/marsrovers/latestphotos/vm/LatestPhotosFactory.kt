@@ -1,4 +1,4 @@
-package com.jphill.marsrovers.latestphotos
+package com.jphill.marsrovers.latestphotos.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +17,11 @@ class LatestPhotosFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(LatestPhotosViewModel::class.java) ->
-                LatestPhotosViewModel(marsRoverImageService, networkScheduler, mainThread) as T
+                LatestPhotosViewModel(
+                    marsRoverImageService,
+                    networkScheduler,
+                    mainThread
+                ) as T
             else -> throw IllegalArgumentException("View model $modelClass not found")
         }
     }

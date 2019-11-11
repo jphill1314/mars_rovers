@@ -1,4 +1,4 @@
-package com.jphill.marsrovers.latestphotos
+package com.jphill.marsrovers.latestphotos.rv
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jphill.marsrovers.databinding.ListItemSquareImageBinding
 import com.jphill.retrofit.models.Photo
-import com.jphill.retrofit.models.PhotosOnSolResponse
 
 class LatestPhotosAdapter(
     var fragment: Fragment? = null,
@@ -17,14 +16,21 @@ class LatestPhotosAdapter(
     private var photos: List<Photo>? = null
 
     fun onNewData(newList: List<Photo>) {
-        val diffResult = DiffUtil.calculateDiff(PhotoDiffUtil(photos ?: emptyList(), newList))
+        val diffResult = DiffUtil.calculateDiff(
+            PhotoDiffUtil(
+                photos ?: emptyList(),
+                newList
+            )
+        )
         diffResult.dispatchUpdatesTo(this)
         photos = newList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(ListItemSquareImageBinding.inflate(inflater, parent, false))
+        return ViewHolder(
+            ListItemSquareImageBinding.inflate(inflater, parent, false)
+        )
     }
 
     override fun getItemCount(): Int = photos?.size ?: 0

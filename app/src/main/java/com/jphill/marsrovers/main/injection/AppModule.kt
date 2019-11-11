@@ -1,5 +1,8 @@
 package com.jphill.marsrovers.main.injection
 
+import android.app.Application
+import android.content.res.Resources
+import com.jphill.marsrovers.R
 import com.jphill.marsrovers.main.MainActivity
 import com.jphill.marsrovers.main.injection.qualifiers.MainThreadScheduler
 import com.jphill.marsrovers.main.injection.qualifiers.NetworkScheduler
@@ -26,7 +29,8 @@ abstract class AppModule {
         @JvmStatic
         @Provides
         @PerApplication
-        fun providesRetrofit(): Retrofit = getRetrofitInstance()
+        fun providesRetrofit(app: Application): Retrofit =
+            getRetrofitInstance(app.resources.getString(R.string.nasa_api_key))
 
         @JvmStatic
         @Provides

@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface MarsRoverImageService {
 
@@ -17,5 +18,5 @@ interface MarsRoverImageService {
     fun getLatestImages(@Path("rover") roverName: String): Observable<LatestPhotosResponse>
 
     @GET("rovers/{rover}/photos")
-    fun getImageFromSol(@Path("rover") roverName: String, @Query("sol") sol: Int): Observable<PhotosOnSolResponse>
+    fun getImageFromSol(@Path("rover") roverName: String, @QueryMap params: Map<String, String>): Observable<PhotosOnSolResponse>
 }

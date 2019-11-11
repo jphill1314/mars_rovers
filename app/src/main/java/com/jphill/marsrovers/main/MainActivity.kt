@@ -1,15 +1,16 @@
 package com.jphill.marsrovers.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.jphill.marsrovers.R
-import dagger.android.AndroidInjection
+import android.view.LayoutInflater
+import com.jphill.marsrovers.databinding.ActivityMainBinding
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        setSupportActionBar(binding.toolbar)
+        setContentView(binding.root)
     }
 }

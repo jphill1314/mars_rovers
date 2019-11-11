@@ -1,4 +1,4 @@
-package com.jphill.marsrovers.latestphotos
+package com.jphill.marsrovers.latestphotos.rv
 
 import androidx.recyclerview.widget.DiffUtil
 import com.jphill.retrofit.models.Photo
